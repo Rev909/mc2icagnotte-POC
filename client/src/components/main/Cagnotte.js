@@ -9,10 +9,10 @@ export class Cagnotte extends React.Component { // eslint-disable-line react/pre
 
   componentDidMount() {
     const { drizzle } = this.props;
-    console.log("La baise");
+
     console.log(drizzle);
     const contract = drizzle.contracts.Mc2iCagnotte;
-    console.log("La chatte");
+
     console.log(contract);
     const dataKey = contract.methods["getCagnotteByID"].cacheCall(this.props.match.params.number);
     this.setState({ dataKey });
