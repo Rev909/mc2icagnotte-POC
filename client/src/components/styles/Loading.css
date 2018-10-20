@@ -1,0 +1,30 @@
+.container-fluid {
+  height: 100vh;
+}
+
+.contrefle {
+  text-align: right;
+}
+
+.trefle {
+  height: 30px;
+  -webkit-animation: rotateTrefle 2s infinite linear;
+}
+
+@-webkit-keyframes rotateTrefle { /* Safari, Opera, Chrome */
+  from {
+      -webkit-transform: rotate(0deg);
+  }
+  to {
+      -webkit-transform: rotate(359deg);
+  }
+}
+
+@keyframes rotateTrefle { /* Tous les autres navigateurs */
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(359deg);
+  }
+}
