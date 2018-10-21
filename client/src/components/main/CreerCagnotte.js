@@ -48,7 +48,7 @@ class CreerCagnotte extends React.Component  {
   }
 
   render() {
-    if (this.state.toCagnotte === "true") {
+    if (this.state.toCagnotte.toString() === "true") {
       const { transactions, transactionStack } = this.props.drizzleState;
       console.log("Test");
       const txHash = transactionStack[this.state.stackId];

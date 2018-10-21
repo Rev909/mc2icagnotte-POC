@@ -34,7 +34,7 @@ export default class MenuNav extends React.Component {
                 </DrizzleContext.Consumer>
               </NavItem>
               <NavItem>
-                <NavLink href="/cagnotte/3">Accéder à une cagnotte</NavLink>
+                <NavLink href="/cagnotte/1">Accéder à une cagnotte</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink>Mes cagnottes</NavLink>
