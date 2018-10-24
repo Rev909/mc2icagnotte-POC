@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {  Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Form, Input, Label } from 'reactstrap';
 import { Redirect } from 'react-router-dom'
 
+import Loading from '../Loading'
+
 class CreerCagnotte extends React.Component  {
 
   constructor(props) {
@@ -52,6 +54,7 @@ class CreerCagnotte extends React.Component  {
       const { transactions, transactionStack } = this.props.drizzleState;
       console.log("Test");
       const txHash = transactionStack[this.state.stackId];
+      if (!txHash) {return <Loading />}
       if (transactions[txHash].status === 'success') {return <Redirect to='/cagnotte/1' />}
     }
     return (

@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { DrizzleContext } from "drizzle-react";
 
-import CreerCagnotte from '../main/CreerCagnotte'
+import CreerCagnotte from '../main/cagnotte/CreerCagnotte'
 
 import '../styles/MenuNav.css'
 

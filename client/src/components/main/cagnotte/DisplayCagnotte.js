@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
-import {Alert} from 'reactstrap';
+
+
+import { Alert } from 'reactstrap'
 
 import Loading from '../Loading'
-import NotFound from '../NotFound'
-import ContribuerCagnotte from './ContribuerCagnotte'
+import ContribuerCagnotte from '../contribution/ContribuerCagnotte'
 import RetirerCagnotte from './RetirerCagnotte'
+import NotFound from '../NotFound'
 
-export class Cagnotte extends React.Component { // eslint-disable-line react/prefer-stateless-function
+/**
+ * DisplayCagnotte
+ */
+export class DisplayCagnotte extends Component { // eslint-disable-line react/prefer-stateless-function
 
   state = { dataKey: null };
 
   componentDidMount() {
     const { drizzle, drizzleState } = this.props;
     const contract = drizzle.contracts.Mc2iCagnotte;
-    const dataKey = contract.methods["getCagnotteByID"].cacheCall(this.props.match.params.number);
+    const dataKey = contract.methods["getCagnotteByID"].cacheCall(this.props.id);
     this.setState({ dataKey});
   }
 
@@ -21,8 +26,8 @@ export class Cagnotte extends React.Component { // eslint-disable-line react/pre
     if (props.value.statut.toString() === "true") {
       return (
         <div>
-          <Alert color="success">Cagnotte ouverte</Alert>
-          <ContribuerCagnotte/>
+        <Alert color="success">Cagnotte ouverte</Alert>
+        <ContribuerCagnotte/>
         </div>
       );
     }
@@ -33,7 +38,7 @@ export class Cagnotte extends React.Component { // eslint-disable-line react/pre
     if (props.value.owner === visitor) {
       return (
         <div>
-          <RetirerCagnotte/>
+        <RetirerCagnotte/>
         </div>
       );
     }
@@ -52,14 +57,15 @@ export class Cagnotte extends React.Component { // eslint-disable-line react/pre
     }
     return (
       <div>
-        <h2> Nom = {cagnotte.value.nom}</h2>
-        <h3> Montant = {cagnotte.value.montant}</h3>
-        <h4> Nombre de contributions = {cagnotte.value.nbreContributions}</h4>
-        <div>{this.getCagnotteStatus(cagnotte)}</div>
-        <div>{this.isCagnotteOwner(cagnotte)}</div>
+      <h2> Nom = {cagnotte.value.nom}</h2>
+      <h3> Montant = {cagnotte.value.montant}</h3>
+      <h4> Nombre de contributions = {cagnotte.value.nbreContributions}</h4>
+      <div>{this.getCagnotteStatus(cagnotte)}</div>
+      <div>{this.isCagnotteOwner(cagnotte)}</div>
       </div>
     );
   }
 }
 
-export default Cagnotte;
+
+export default DisplayCagnotte;

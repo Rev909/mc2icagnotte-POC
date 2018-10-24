@@ -6,9 +6,6 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App';
-import CreerCagnotte from './components/main/CreerCagnotte'
-import Accueil from './components/main/Accueil'
-import Cagnotte from './components/main/cagnotte/Cagnotte'
 
 import registerServiceWorker from './registerServiceWorker';
 
