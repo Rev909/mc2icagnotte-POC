@@ -46,7 +46,7 @@ class CreerCagnotte extends React.Component  {
     const contract = drizzle.contracts.Mc2iCagnotte;
     const stackId = contract.methods["CreerCagnotte"].cacheSend(this.state.value);
     console.log(this.state.stackId);
-    this.setState({stackId: stackId, toCagnotte: true});
+    this.setState({stackId: stackId});
   }
 
   render() {

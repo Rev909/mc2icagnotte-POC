@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 export class DisplayContribution extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div>MY COMPONENT</div>
+      <div>Affichage des contributions mamen</div>
     );
   }
 }

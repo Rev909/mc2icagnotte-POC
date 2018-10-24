@@ -16,13 +16,13 @@ export class Cagnotte extends Component { // eslint-disable-line react/prefer-st
 
           if (!initialized) {
             return <Loading/>
-        }
+          }
 
         return (
           <div className="cagnotte">
             <DisplayCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.match.params.number} />
-          <DisplayContribution drizzle={drizzle} drizzleState={drizzleState} />
-      </div>
+            <DisplayContribution drizzle={drizzle} drizzleState={drizzleState} />
+        </div>
     );
   }}
       </DrizzleContext.Consumer>
