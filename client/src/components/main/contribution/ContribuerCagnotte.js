@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Button, Popover, PopoverHeader, PopoverBody, InputGroup, Input, InputGroupAddon, Label, FormGroup, Form } from 'reactstrap';
+import { Col, Row, Button, Popover, PopoverHeader, PopoverBody, InputGroup, Input, InputGroupAddon, Label, FormGroup, Form } from 'reactstrap';
 
 
 
@@ -26,23 +26,30 @@ export class ContribuerCagnotte extends Component { // eslint-disable-line react
     return (
       <div>
         <Button id="PopoverCagnotte" color="primary" onClick={this.toggle}>
-          Contribuer Cagnotte
+          Contribuer à cette cagnotte
         </Button>
         <Popover placement="auto" isOpen={this.state.popoverOpen} target="PopoverCagnotte" toggle={this.toggle}>
           <PopoverHeader>Votre contribution</PopoverHeader>
           <PopoverBody>
-          <Col lg={12}>
-            <InputGroup>
-              <Input placeholder="Montant" />
-              <InputGroupAddon addonType="append">mc2icoins</InputGroupAddon>
-            </InputGroup>
-            <Form>
-              <FormGroup>
-                <Input type="textarea" name="text" id="exampleText" placeholder="Votre message"/>
-              </FormGroup>
-            </Form>
-            <Button color="primary" onClick={this.toggle}>Valider</Button>
-          </Col>
+          <Row>
+            <Col>
+              <InputGroup>
+                <Input placeholder="Montant" />
+                <InputGroupAddon addonType="append">mc²icoins</InputGroupAddon>
+              </InputGroup>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col>
+              <Form>
+                <FormGroup>
+                  <Input type="textarea" name="text" id="exampleText" placeholder="Votre message"/>
+                </FormGroup>
+              </Form>
+              <Button color="primary" onClick={this.toggle}>Valider</Button>
+            </Col>
+          </Row>
           </PopoverBody>
         </Popover>
       </div>

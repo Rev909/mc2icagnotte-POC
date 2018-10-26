@@ -63,12 +63,8 @@ class CreerCagnotte extends React.Component  {
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Création d'une cagnotte</ModalHeader>
           <ModalBody>
-            <Form>
-              <FormGroup>
-                <Label for="exampleEmail">Nom de la cagnotte</Label>
-                <Input type="text" name="cagnotte" value={this.state.value} onKeyPress={this.handleKeyPress} id="nomcagnotte" onChange={this.handleChange} placeholder="Pot de départ disruptif" />
-              </FormGroup>
-            </Form>
+              <Label for="exampleEmail">Nom de la cagnotte</Label>
+              <Input type="text" name="cagnotte" value={this.state.value} onKeyPress={this.handleKeyPress} id="nomcagnotte" onChange={this.handleChange} placeholder="Pot de départ disruptif" />
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.handleSubmit}>Créer</Button>{' '}

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-
-
-import { Alert } from 'reactstrap'
+import { Card, Button, CardHeader, CardFooter, CardBody,
+  CardTitle, CardText, Container, Col, Row } from 'reactstrap'
 
 import Loading from '../Loading'
 import ContribuerCagnotte from '../contribution/ContribuerCagnotte'
@@ -9,8 +8,8 @@ import RetirerCagnotte from './RetirerCagnotte'
 import NotFound from '../NotFound'
 
 /**
- * DisplayCagnotte
- */
+* DisplayCagnotte
+*/
 export class DisplayCagnotte extends Component { // eslint-disable-line react/prefer-stateless-function
 
   state = { dataKey: null };
@@ -25,11 +24,11 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
   getCagnotteStatus = (props) =>  {
     if (props.value.statut.toString() === "true") {
       return (
-        <div>
-        <Alert color="success">Cagnotte ouverte</Alert>
-        <ContribuerCagnotte/>
-        </div>
+        <Button outline color="success" disabled>Ouverte</Button>
       );
+      }
+      else {
+        return (<Button outline color="danger" disabled>Fermée</Button>)
     }
   };
 
@@ -37,9 +36,11 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
     const visitor = this.props.drizzleState.accounts[0];
     if (props.value.owner === visitor) {
       return (
-        <div>
-        <RetirerCagnotte/>
-        </div>
+        <Col>
+          <Row className="justify-content-center">
+            <RetirerCagnotte/>
+          </Row>
+        </Col>
       );
     }
   };
@@ -56,13 +57,42 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
       return <NotFound/>
     }
     return (
-      <div>
-      <h2> Nom = {cagnotte.value.nom}</h2>
-      <h3> Montant = {cagnotte.value.montant}</h3>
-      <h4> Nombre de contributions = {cagnotte.value.nbreContributions}</h4>
-      <div>{this.getCagnotteStatus(cagnotte)}</div>
-      <div>{this.isCagnotteOwner(cagnotte)}</div>
-      </div>
+      <Container fluid>
+      <Row className="justify-content-center">
+        <Col lg="9">
+          <Row className="title-cagnotte justify-content-center">
+            <Col sm="9">
+              <h1 className="display-4 text-center">{cagnotte.value.nom}</h1>
+            </Col>
+          </Row>
+          <Row className="justify-content-center align-items-center">
+            <Col>
+              <Row className="justify-content-center">
+                <ContribuerCagnotte />
+              </Row>
+            </Col>
+            {this.isCagnotteOwner(cagnotte)}
+          </Row>
+          <hr />
+          <Row className="title-info justify-content-center">
+              <h2>Informations de la cagnotte</h2> 
+          </Row>
+          <Row className="infos2-cagnotte justify-content-center align-items-center">
+              <Col sm="3">
+                <Row className="justify-content-center"><h2>{cagnotte.value.montant}</h2></Row>
+                <Row className="justify-content-center"><h3>ETH</h3></Row>
+              </Col>
+              <Col sm="3">
+                <Row className="justify-content-center"><h2>{cagnotte.value.nbreContributions}</h2></Row>
+                <Row className="justify-content-center"><h3>contributions</h3></Row>
+              </Col>
+              <Col sm="3">
+                <Row className="justify-content-center">{this.getCagnotteStatus(cagnotte)}</Row>
+              </Col>
+          </Row>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
