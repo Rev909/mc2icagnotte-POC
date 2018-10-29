@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 
 import { Alert } from 'reactstrap'
+import { DrizzleContext } from "drizzle-react";
 
 import Loading from '../Loading'
 import ContribuerCagnotte from '../contribution/ContribuerCagnotte'
@@ -27,7 +28,14 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
       return (
         <div>
         <Alert color="success">Cagnotte ouverte</Alert>
-        <ContribuerCagnotte/>
+        <DrizzleContext.Consumer>
+          {drizzleContext => {
+            const { drizzle, drizzleState, initialized } = drizzleContext;
+            return (
+              <ContribuerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id} />
+            );
+          }}
+        </DrizzleContext.Consumer>
         </div>
       );
     }
