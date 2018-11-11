@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Card, Button, CardHeader, CardFooter, CardBody,
   CardTitle, CardText, Container, Col, Row } from 'reactstrap'
 
+import { Callout, Icon, Intent } from "@blueprintjs/core";
+import { DrizzleContext } from 'drizzle-react'
+
 import Loading from '../Loading'
 import ContribuerCagnotte from '../contribution/ContribuerCagnotte'
 import RetirerCagnotte from './RetirerCagnotte'
@@ -18,31 +21,64 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
     const { drizzle, drizzleState } = this.props;
     const contract = drizzle.contracts.Mc2iCagnotte;
     const dataKey = contract.methods["getCagnotteByID"].cacheCall(this.props.id);
-    this.setState({ dataKey});
+    this.setState({dataKey});
   }
 
   getCagnotteStatus = (props) =>  {
     if (props.value.statut.toString() === "true") {
-      return (
-        <Button outline color="success" disabled>Ouverte</Button>
-      );
+      return (<Callout intent={Intent.SUCCESS} title="Cagnotte ouverte" icon="bank-account"/>);
       }
       else {
-        return (<Button outline color="danger" disabled>Fermée</Button>)
+        return (<Callout intent={Intent.DANGER} title="Cagnotte fermée" icon="cross"/>)
     }
   };
 
-  isCagnotteOwner = (props) =>  {
+  getActionsCagnotte = (props) =>  {
     const visitor = this.props.drizzleState.accounts[0];
-    if (props.value.owner === visitor) {
-      return (
-        <Col>
-          <Row className="justify-content-center">
-            <RetirerCagnotte/>
-          </Row>
-        </Col>
-      );
-    }
+    if (props.value.statut.toString() === "true") {
+          if (props.value.owner === visitor) {
+           return (
+              <DrizzleContext.Consumer>
+                {drizzleContext => {
+                  const { drizzle, drizzleState, initialized } = drizzleContext;
+                  if (!initialized) { return <Loading />} ;
+                  return (
+                      <div className="actions-return">
+                        <Row className="justify-content-center">
+                          <Col sm="6">
+                            <ContribuerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id} />
+                          </Col>
+                          <Col sm="6">
+                            <RetirerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id}/>
+                          </Col>
+                        </Row>
+                      </div>
+                  );
+                }}
+              </DrizzleContext.Consumer>
+            );
+          }
+          else {
+            return (
+              <DrizzleContext.Consumer>
+                {drizzleContext => {
+                  const { drizzle, drizzleState, initialized } = drizzleContext;
+                  if (!initialized) { return <Loading />} ;
+                  return (
+                    <div className="actions-return">
+                      <Row className="justify-content-center">
+                        <Col sm="12">
+                          <ContribuerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id}/>
+                        </Col> 
+                      </Row>
+                    </div>
+                  );
+                }}
+              </DrizzleContext.Consumer>
+              );
+          }
+    }    
+
   };
 
   render() {
@@ -51,49 +87,47 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
     console.log(cagnotte)
     if (!cagnotte)
     {
-      return <Loading/>
+      return <Loading />
     }
     else if (cagnotte.value.owner === "0x0000000000000000000000000000000000000000") {
-      return <NotFound/>
+      return <NotFound />
     }
     return (
-      <Container fluid>
-      <Row className="justify-content-center">
-        <Col lg="9">
-          <Row className="title-cagnotte justify-content-center">
-            <Col sm="9">
-              <h1 className="display-4 text-center">{cagnotte.value.nom}</h1>
+      <div className="display-cagnotte">
+        <Container>
+          <Row>
+            <Col lg="8">
+              <div className="title-cagnotte border rounded-left">
+                <div className="heading-title">
+                  <h1 className="display-3"> {cagnotte.value.nom} </h1>
+                </div>
+                <div className="sub-title">
+                  <h4 className="text-muted"> <small> Créée par {cagnotte.value.owner} </small></h4>
+                </div>
+              </div>
+            </Col>
+            <Col lg="4">
+              <div className="infos-cagnotte border rounded-right">
+                <div className="montant-cagnotte">
+                  <h3> {cagnotte.value.montant} ETH</h3>
+                </div>
+                <div className="contributions-cagnotte">
+                  <h3> {cagnotte.value.nbreContributions} contributions</h3>
+                </div>
+                <div className="statut-cagnotte">
+                  <div className="statut-return">
+                    {this.getCagnotteStatus(cagnotte)}
+                  </div>
+                </div>
+              </div>
+              <div className="actions-cagnotte">
+                {this.getActionsCagnotte(cagnotte)}
+              </div>
             </Col>
           </Row>
-          <Row className="justify-content-center align-items-center">
-            <Col>
-              <Row className="justify-content-center">
-                <ContribuerCagnotte />
-              </Row>
-            </Col>
-            {this.isCagnotteOwner(cagnotte)}
-          </Row>
-          <hr />
-          <Row className="title-info justify-content-center">
-              <h2>Informations de la cagnotte</h2> 
-          </Row>
-          <Row className="infos2-cagnotte justify-content-center align-items-center">
-              <Col sm="3">
-                <Row className="justify-content-center"><h2>{cagnotte.value.montant}</h2></Row>
-                <Row className="justify-content-center"><h3>ETH</h3></Row>
-              </Col>
-              <Col sm="3">
-                <Row className="justify-content-center"><h2>{cagnotte.value.nbreContributions}</h2></Row>
-                <Row className="justify-content-center"><h3>contributions</h3></Row>
-              </Col>
-              <Col sm="3">
-                <Row className="justify-content-center">{this.getCagnotteStatus(cagnotte)}</Row>
-              </Col>
-          </Row>
-          </Col>
-        </Row>
-      </Container>
-    );
+        </Container>
+      </div>
+    )
   }
 }
 

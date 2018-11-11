@@ -3,3 +3,37 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.container {
+	margin-top: 100px;
+}
+
+.text-heading {
+	margin-top: 10px;
+	margin-bottom: 25px;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	margin-top: 25px;
+	height: 60px;
+	line-height: 60px;
+}
+
+.title-cagnotte {
+	padding: 30px;
+}
+
+.infos-cagnotte {
+	padding: 20px;
+}
+
+.montant-cagnotte, .contributions-cagnotte {
+	margin-bottom: 30px;
+}
+
+.actions-cagnotte {
+	margin-top: 25px;
+}

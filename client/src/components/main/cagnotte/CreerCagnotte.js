@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Form, Input, Label } from 'reactstrap';
+import { Button, Classes, Dialog, Intent, Text, InputGroup } from "@blueprintjs/core";
 import { Redirect } from 'react-router-dom'
 
 import Loading from '../Loading'
@@ -9,10 +9,11 @@ class CreerCagnotte extends React.Component  {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      isOpen: false,
       stackId: null,
       value: '',
       toCagnotte: false,
+      loading: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -23,7 +24,7 @@ class CreerCagnotte extends React.Component  {
 
   toggle() {
     this.setState({
-      modal: !this.state.modal,
+      isOpen: !this.state.isOpen,
       value: '',
       toCagnotte: false,
       stackId: ''
@@ -42,35 +43,44 @@ class CreerCagnotte extends React.Component  {
 
   handleSubmit(event) {
     const { drizzle, drizzleState } = this.props;
-
     const contract = drizzle.contracts.Mc2iCagnotte;
-    const stackId = contract.methods["CreerCagnotte"].cacheSend(this.state.value);
-    console.log(this.state.stackId);
-    this.setState({stackId: stackId});
+    const stackId = contract.methods["CreerCagnotte"].cacheSend(this.state.value)
+    this.setState({stackId: stackId, toCagnotte: true, loading: true});
   }
+
 
   render() {
     if (this.state.toCagnotte.toString() === "true") {
+      const contract = this.props.drizzle.contracts.Mc2iCagnotte;
       const { transactions, transactionStack } = this.props.drizzleState;
-      console.log("Test");
       const txHash = transactionStack[this.state.stackId];
-      if (!txHash) {return <Loading />}
-      if (transactions[txHash].status === 'success') {return <Redirect to='/cagnotte/1' />}
+      console.log(txHash);
+      if (txHash) {
+        if (transactions[txHash].status === 'success') {
+          const id = transactions[txHash].receipt.events.CreationCagnotte.returnValues[0];
+          return <Redirect to={'/cagnotte/' + id} />
+        }
+        else {
+          console.log("Bite");
+        }
+      }
     }
+
     return (
       <div>
-        <Button color="primary" onClick={this.toggle}>Créer une Cagnotte</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Création d'une cagnotte</ModalHeader>
-          <ModalBody>
-              <Label for="exampleEmail">Nom de la cagnotte</Label>
-              <Input type="text" name="cagnotte" value={this.state.value} onKeyPress={this.handleKeyPress} id="nomcagnotte" onChange={this.handleChange} placeholder="Pot de départ disruptif" />
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.handleSubmit}>Créer</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Annuler</Button>
-          </ModalFooter>
-        </Modal>
+        <Button minimal="true" icon="plus" onClick={this.toggle} text="Créer une cagnotte" />
+        <Dialog className="dialog-cagnotte" icon="bank-account" isOpen={this.state.isOpen} onClose={this.toggle} title="Créer une cagnotte">
+          <div className={Classes.DIALOG_BODY}>
+            <Text>Nom de la cagnotte</Text>
+            <InputGroup large="true" style={{ marginTop: '10px' }} onKeyPress={this.handleKeyPress} onChange={this.handleChange} placeholder="Pot de départ disruptif" value={this.state.value}/>
+          </div>
+          <div className={Classes.DIALOG_FOOTER}>
+            <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+              <Button onClick={this.toggle}>Annuler</Button>
+              <Button intent={Intent.PRIMARY} onClick={this.handleSubmit} loading={this.state.loading}> Valider</Button>
+            </div>
+          </div>
+        </Dialog>
       </div>
     );
   }

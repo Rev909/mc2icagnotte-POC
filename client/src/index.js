@@ -15,7 +15,12 @@ import { DrizzleContext } from "drizzle-react";
 import Mc2iCagnotte from "./contracts/Mc2iCagnotte.json";
 
 // let drizzle know what contracts we want
-const options = { contracts: [Mc2iCagnotte] };
+const options = { 
+	contracts: [Mc2iCagnotte],
+	events: {
+    	Mc2iCagnotte: ['CreationCagnotte'],
+	}
+};
 
 // setup the drizzle store and drizzle
 const drizzleStore = generateStore(options);

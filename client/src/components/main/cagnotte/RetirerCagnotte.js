@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Button } from 'reactstrap';
+import { Button, Intent } from "@blueprintjs/core";
 
 /**
  * ComponentName
@@ -7,7 +7,9 @@ import {  Button } from 'reactstrap';
 export class RetirerCagnotte extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <Button color="danger">Retirer Cagnotte</Button>
+      <Button id="PopoverCagnotte" large intent={Intent.DANGER} icon="import" onClick={this.toggle}>
+          Retirer
+       </Button>
     );
   }
 }

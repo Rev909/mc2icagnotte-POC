@@ -1,40 +1,47 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Card, Button, CardTitle, CardText, CardDeck, CardSubtitle, CardBody } from 'reactstrap';
+import {Container, Row, Col, Jumbotron, CardTitle, CardDeck, CardImg, CardSubtitle, CardBody, CardText, Card, Button } from 'reactstrap';
 
 class Accueil extends React.Component {
   render() {
     return (
-      <div className="jumbotron">
-        <Jumbotron fluid>
-          <Container fluid>
-            <CardDeck>
-              <Card>
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-              <Card>
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-              <Card>
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-            </CardDeck>
-          </Container>
-        </Jumbotron>
+      <div className="accueil">
+        <Container>
+          <Jumbotron>
+              <h1 className="display-3">Bienvenue sur mc²iCagnotte</h1>
+              <p className="lead">mc²iCagnotte est un site internet de cagnottes en ligne reposant sur la technologie blockchain Ethereum.</p>
+          </Jumbotron>
+          <Row>
+            <Col sm="12">
+              <div className="text-heading">
+                <h1 className="bp3-heading text-center">Comment cela fonctionne-t-il ?</h1>
+              </div>
+              <CardDeck className="accueil-faq">
+                <Card>
+                  <CardBody>
+                    <CardTitle>Card title</CardTitle>
+                    <CardSubtitle>Card subtitle</CardSubtitle>
+                    <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
+                  </CardBody>
+                </Card>
+                <Card>
+                  
+                  <CardBody>
+                    <CardTitle>Card title</CardTitle>
+                    <CardSubtitle>Card subtitle</CardSubtitle>
+                    <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
+                    <CardTitle>Card title</CardTitle>
+                    <CardSubtitle>Card subtitle</CardSubtitle>
+                    <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
+                  </CardBody>
+                </Card>
+              </CardDeck>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

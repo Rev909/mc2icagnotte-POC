@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Col, Row, Button, Popover, PopoverHeader, PopoverBody, InputGroup, Input, InputGroupAddon, Label, FormGroup, Form } from 'reactstrap';
+import { Col, Row, Popover, PopoverHeader, PopoverBody, InputGroup, Input, InputGroupAddon, Label, FormGroup, Form } from 'reactstrap';
 
-
+import { Button, Intent } from "@blueprintjs/core";
 
 /**
  * ContribuerCagnotte
@@ -10,10 +10,18 @@ export class ContribuerCagnotte extends Component { // eslint-disable-line react
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      popoverOpen: false
+      popoverOpen: false,
+      name: '',
+      montant: 0,
+      message: ''
     };
+
+      this.toggle = this.toggle.bind(this);
+      this.handleChangeName = this.handleChangeName.bind(this);
+      this.handleChangeMontant = this.handleChangeMontant.bind(this);
+      this.handleChangeMessage= this.handleChangeMessage.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   toggle() {
@@ -22,19 +30,44 @@ export class ContribuerCagnotte extends Component { // eslint-disable-line react
     });
   }
 
+  handleChangeName(event) {
+    this.setState({name: event.target.value});
+  }
+
+  handleChangeMontant(event) {
+    this.setState({montant: event.target.value});
+  }
+
+  handleChangeMessage(event) {
+    this.setState({message: event.target.value});
+  }
+
+  handleSubmit(event) {
+    const { drizzle, drizzleState } = this.props;
+    const contract = drizzle.contracts.Mc2iCagnotte;
+    const stackId = contract.methods["ContribuerCagnotte"].cacheSend(this.props.id, this.state.name, this.state.message, { value: (drizzle.web3.utils.toWei(this.state.montant,"ether"))});
+    this.setState({stackId: stackId});
+  }
+
   render() {
     return (
       <div>
-        <Button id="PopoverCagnotte" color="primary" onClick={this.toggle}>
-          Contribuer à cette cagnotte
+        <Button id="PopoverCagnotte" large intent={Intent.PRIMARY} icon="dollar" onClick={this.toggle}>
+          Contribuer
         </Button>
         <Popover placement="auto" isOpen={this.state.popoverOpen} target="PopoverCagnotte" toggle={this.toggle}>
           <PopoverHeader>Votre contribution</PopoverHeader>
           <PopoverBody>
-          <Row>
+            <Row>
+              <Col>
+                <Input placeholder="Nom Prénom" onChange={this.handleChangeName} value={this.state.name}  />
+              </Col>
+            </Row>
+            <br />
+            <Row>
             <Col>
               <InputGroup>
-                <Input placeholder="Montant" />
+                <Input placeholder="Montant" onChange={this.handleChangeMontant} value={this.state.montant} />
                 <InputGroupAddon addonType="append">mc²icoins</InputGroupAddon>
               </InputGroup>
             </Col>
@@ -44,10 +77,10 @@ export class ContribuerCagnotte extends Component { // eslint-disable-line react
             <Col>
               <Form>
                 <FormGroup>
-                  <Input type="textarea" name="text" id="exampleText" placeholder="Votre message"/>
+                  <Input type="textarea" name="text" placeholder="Votre message" onChange={this.handleChangeMessage} value={this.state.message}/>
                 </FormGroup>
               </Form>
-              <Button color="primary" onClick={this.toggle}>Valider</Button>
+              <Button color="primary" onClick={this.handleSubmit}>Valider</Button>
             </Col>
           </Row>
           </PopoverBody>
