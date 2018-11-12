@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Card, Button, CardHeader, CardFooter, CardBody,
-  CardTitle, CardText, Container, Col, Row } from 'reactstrap'
+import { Container, Col, Row } from 'reactstrap'
 
 import { Callout, Icon, Intent } from "@blueprintjs/core";
 import { DrizzleContext } from 'drizzle-react'
 
 import Loading from '../Loading'
 import ContribuerCagnotte from '../contribution/ContribuerCagnotte'
+import DisplayContribution from '../contribution/DisplayContribution'
 import RetirerCagnotte from './RetirerCagnotte'
 import NotFound from '../NotFound'
 
@@ -77,6 +77,17 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
               </DrizzleContext.Consumer>
               );
           }
+    }
+    else {
+      return  (
+          <div className="actions-return">
+            <Row className="justify-content-center">
+              <Col sm="12">
+                <h4 class="text-muted">Aucune action disponible</h4>
+               </Col> 
+            </Row>
+          </div>
+        )
     }    
 
   };
@@ -84,7 +95,6 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
   render() {
     const { Mc2iCagnotte } = this.props.drizzleState.contracts;
     const cagnotte = Mc2iCagnotte.getCagnotteByID[this.state.dataKey];
-    console.log(cagnotte)
     if (!cagnotte)
     {
       return <Loading />
@@ -95,36 +105,46 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
     return (
       <div className="display-cagnotte">
         <Container>
-          <Row>
-            <Col lg="8">
-              <div className="title-cagnotte border rounded-left">
-                <div className="heading-title">
-                  <h1 className="display-3"> {cagnotte.value.nom} </h1>
-                </div>
-                <div className="sub-title">
-                  <h4 className="text-muted"> <small> Créée par {cagnotte.value.owner} </small></h4>
-                </div>
-              </div>
-            </Col>
-            <Col lg="4">
-              <div className="infos-cagnotte border rounded-right">
-                <div className="montant-cagnotte">
-                  <h3> {cagnotte.value.montant} ETH</h3>
-                </div>
-                <div className="contributions-cagnotte">
-                  <h3> {cagnotte.value.nbreContributions} contributions</h3>
-                </div>
-                <div className="statut-cagnotte">
-                  <div className="statut-return">
-                    {this.getCagnotteStatus(cagnotte)}
+          <div className="display-infos">  
+              <Row>
+                <Col lg="8">
+                  <div className="title-cagnotte border rounded-left">
+                    <div className="heading-title">
+                      <h1 className="display-3"> {cagnotte.value.nom} </h1>
+                    </div>
+                    <div className="sub-title">
+                      <h4 className="text-muted"> <small> Créée par {cagnotte.value.owner} </small></h4>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="actions-cagnotte">
-                {this.getActionsCagnotte(cagnotte)}
-              </div>
-            </Col>
-          </Row>
+                </Col>
+                <Col lg="4">
+                  <div className="infos-cagnotte border rounded-right">
+                    <div className="montant-cagnotte">
+                      <h3> {
+                        this.props.drizzle.web3.utils.fromWei(cagnotte.value.montant,"ether")
+                      } ETH</h3>
+                    </div>
+                    <div className="contributions-cagnotte">
+                      <h3> {cagnotte.value.nbreContributions}  {cagnotte.value.nbreContributions > 1 ? 'contributions' : 'contribution'}</h3>
+                    </div>
+                    <div className="statut-cagnotte">
+                      <div className="statut-return">
+                        {this.getCagnotteStatus(cagnotte)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="actions-cagnotte">
+                    {this.getActionsCagnotte(cagnotte)}
+                  </div>
+                </Col>
+              </Row> 
+          </div>
+          <div className="display-contributions">
+            <div className="title-contributions">
+              <h1 className="bp3-heading">Contributions</h1>
+            </div>
+            { cagnotte.value.nbreContributions == 0 ? "Aucune contribution à cette cagnotte" : <DisplayContribution drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} id={this.props.id} /> }
+          </div>
         </Container>
       </div>
     )

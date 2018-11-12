@@ -27,7 +27,8 @@ class CreerCagnotte extends React.Component  {
       isOpen: !this.state.isOpen,
       value: '',
       toCagnotte: false,
-      stackId: ''
+      stackId: '',
+      loading: false
     });
   }
 
@@ -54,14 +55,11 @@ class CreerCagnotte extends React.Component  {
       const contract = this.props.drizzle.contracts.Mc2iCagnotte;
       const { transactions, transactionStack } = this.props.drizzleState;
       const txHash = transactionStack[this.state.stackId];
-      console.log(txHash);
       if (txHash) {
         if (transactions[txHash].status === 'success') {
           const id = transactions[txHash].receipt.events.CreationCagnotte.returnValues[0];
+          this.toggle();
           return <Redirect to={'/cagnotte/' + id} />
-        }
-        else {
-          console.log("Bite");
         }
       }
     }

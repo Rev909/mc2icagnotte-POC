@@ -8,6 +8,12 @@ body {
 	margin-top: 100px;
 }
 
+.main-link-navbar:link ,.main-link-navbar:hover, .main-link-navbar:active, .main-link-navbar:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+
 .text-heading {
 	margin-top: 10px;
 	margin-bottom: 25px;
@@ -36,4 +42,8 @@ body {
 
 .actions-cagnotte {
 	margin-top: 25px;
+}
+
+.display-contributions {
+	margin-top: 35px;
 }

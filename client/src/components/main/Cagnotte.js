@@ -20,8 +20,7 @@ export class Cagnotte extends Component { // eslint-disable-line react/prefer-st
 
         return (
           <div className="cagnotte">
-            <DisplayCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.match.params.number} />
-            <DisplayContribution drizzle={drizzle} drizzleState={drizzleState} />
+            <DisplayCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.match.params.number} /> 
         </div>
     );
   }}

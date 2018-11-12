@@ -35,7 +35,9 @@ export default class MenuNav extends React.Component {
       <div className="nav">
         <Navbar fixedToTop>
             <Navbar.Group>
-                <Navbar.Heading>mc²iCagnotte</Navbar.Heading>
+                <Navbar.Heading>
+                  <a href="/"  className="main-link-navbar">mc²iCagnotte</a>
+                </Navbar.Heading>
                 <Navbar.Divider />
                 <DrizzleContext.Consumer>
                     {drizzleContext => {
@@ -51,7 +53,7 @@ export default class MenuNav extends React.Component {
                   onValueChange={this.handleChange}
                   value={this.state.value}
                   placeholder="Numéro de cagnotte..."
-                  onKeyPress={console.log("Bite")}
+                  onKeyPress={this.handleKeyPress}
                   buttonPosition="none"
                   leftIcon="search"
                   type="search"

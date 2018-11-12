@@ -107,13 +107,9 @@ contract Mc2iCagnotte {
     /// @dev Ne retourne pour l'instant que des tableaux d'adresses et d'int, une solution pour les noms et mots est en cours d'investigation
     /// @param _id L'ID de la cagnotte
     /// @return uint128[] Tableau des ID des contributions
-    /// @return address[] Tableau des adresses des contributeurs
-    /// @return uint[] Tableau des montants des contributions
-    function getContributionsByCagnotte(uint _id) public view returns (uint128[], address[], uint[]) {
+    function getContributionsByCagnotte(uint _id) public view returns (uint128[]) {
         //On réserve trois tableaux et on fixe leur taille avec le nombre de contributions de la cagnotte
 		uint128[] memory _idContribs = new uint128[](getCagnotteByID[_id].nbreContributions);
-		address[] memory _contribs = new address[](getCagnotteByID[_id].nbreContributions);
-        uint[] memory _montants = new uint[](getCagnotteByID[_id].nbreContributions);
         uint counter = 0;
 		//On itère dans le tableau des contributions, à la recherhe des contributions liées à la cagnotte
         for (uint i = 0 ; i < contributions.length ; i++) {
@@ -122,11 +118,9 @@ contract Mc2iCagnotte {
 				//On charge ses paramètres dans les trois tableaux temporaires
                 Contribution storage contrib = contributions[i];
                 _idContribs[counter] = contrib.id;
-                _contribs[counter] = contrib.sender;
-                _montants[counter] = contrib.montant;
                 counter++;
             }
         }
-        return(_idContribs, _contribs, _montants);
+        return(_idContribs);
     }
 }

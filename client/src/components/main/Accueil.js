@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Container, Row, Col, Jumbotron, CardTitle, CardDeck, CardImg, CardSubtitle, CardBody, CardText, Card, Button } from 'reactstrap';
+import {Container, Row, Col, Jumbotron, CardTitle, CardDeck, CardSubtitle, CardBody, CardText, Card, Button } from 'reactstrap';
 
 class Accueil extends React.Component {
   render() {
