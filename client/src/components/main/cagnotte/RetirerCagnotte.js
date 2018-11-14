@@ -44,14 +44,14 @@ export class RetirerCagnotte extends Component { // eslint-disable-line react/pr
 		    if (txHash) {
 		        if (transactions[txHash].status === 'success') {
 		        	this.toggle();
-		        	return <Redirect to={'/cagnotte/' + this.props.id} />
+		        	return <Redirect push to={'/cagnotte/' + this.props.id} />
 		        }
 		    }
 		}
 
 		return (
 			<div>
-				<Button id="PopoverCagnotte" large intent={Intent.DANGER} icon="import" onClick={this.toggle}>
+				<Button id="PopoverCagnotte" large intent={Intent.DANGER} icon="import" loading={this.props.loading} onClick={this.toggle}>
 				Retirer
 				</Button>
 				<Dialog className="dialog-cagnotte" icon="error" isOpen={this.state.isOpen} onClose={this.toggle} title="Retrait de la cagnotte">

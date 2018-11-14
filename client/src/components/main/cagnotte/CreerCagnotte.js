@@ -59,7 +59,7 @@ class CreerCagnotte extends React.Component  {
         if (transactions[txHash].status === 'success') {
           const id = transactions[txHash].receipt.events.CreationCagnotte.returnValues[0];
           this.toggle();
-          return <Redirect to={'/cagnotte/' + id} />
+          return <Redirect push to={'/cagnotte/' + id} />
         }
       }
     }

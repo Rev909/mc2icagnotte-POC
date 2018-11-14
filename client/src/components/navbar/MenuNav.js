@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, Alignment, NumericInput, Intent } from '@blueprintjs/core'
+import { Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, Alignment, InputGroup, Intent } from '@blueprintjs/core'
 import { DrizzleContext } from "drizzle-react";
 import { Redirect } from 'react-router-dom'
 
@@ -18,19 +18,37 @@ export default class MenuNav extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
   }
 
-  handleChange(valueAsNumber: number) {
-    this.setState({value: valueAsNumber});
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
   handleKeyPress(event) {
     if (event.key === 'Enter') {
-      <Redirect to={'/cagnotte/' + this.state.value} />
+      if (this.state.value != '') {this.handleSubmit()}      
     }
   }
+
+  handleSubmit(event) {
+    <Redirect push to={'/cagnotte/' + this.state.value} />
+    console.log("Debug");
+  }
+
   render() {
+
+    const searchButton = (
+       <Button
+          disabled={false}
+          icon="search"
+          intent={Intent.PRIMARY}
+          minimal={true}
+          onClick={this.handleSubmit}
+        />
+    );
+
     return (
       <div className="nav">
         <Navbar fixedToTop>
@@ -49,13 +67,12 @@ export default class MenuNav extends React.Component {
                 </DrizzleContext.Consumer>
             </Navbar.Group>
             <Navbar.Group align={Alignment.RIGHT}>
-                <NumericInput
-                  onValueChange={this.handleChange}
+                <InputGroup
+                  onChange={this.handleChange}
                   value={this.state.value}
                   placeholder="Numéro de cagnotte..."
                   onKeyPress={this.handleKeyPress}
-                  buttonPosition="none"
-                  leftIcon="search"
+                  rightElement={searchButton}
                   type="search"
                 />
                 <Button intent="primary" icon="user" text="Profil" style={{ marginLeft: '30px' }} />

@@ -13,7 +13,7 @@ import NotFound from '../NotFound'
 /**
 * DisplayCagnotte
 */
-export class DisplayCagnotte extends Component { // eslint-disable-line react/prefer-stateless-function
+export class DisplayCagnotte extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   state = { dataKey: null };
 
@@ -41,18 +41,17 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
               <DrizzleContext.Consumer>
                 {drizzleContext => {
                   const { drizzle, drizzleState, initialized } = drizzleContext;
-                  if (!initialized) { return <Loading />} ;
+                  let loading = false
+                  if (!initialized) { loading = true }
                   return (
-                      <div className="actions-return">
-                        <Row className="justify-content-center">
-                          <Col sm="6">
-                            <ContribuerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id} />
-                          </Col>
-                          <Col sm="6">
-                            <RetirerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id}/>
-                          </Col>
-                        </Row>
-                      </div>
+                    <Row className="justify-content-center">
+                      <Col sm="6">
+                        <ContribuerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id} loading={loading}/>
+                      </Col>
+                      <Col sm="6">
+                        <RetirerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id} loading={loading}/>
+                      </Col>
+                    </Row>
                   );
                 }}
               </DrizzleContext.Consumer>
@@ -65,13 +64,11 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
                   const { drizzle, drizzleState, initialized } = drizzleContext;
                   if (!initialized) { return <Loading />} ;
                   return (
-                    <div className="actions-return">
                       <Row className="justify-content-center">
                         <Col sm="12">
                           <ContribuerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id}/>
                         </Col> 
                       </Row>
-                    </div>
                   );
                 }}
               </DrizzleContext.Consumer>
@@ -80,13 +77,11 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
     }
     else {
       return  (
-          <div className="actions-return">
             <Row className="justify-content-center">
               <Col sm="12">
                 <h4 class="text-muted">Aucune action disponible</h4>
                </Col> 
             </Row>
-          </div>
         )
     }    
 
@@ -134,7 +129,9 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
                     </div>
                   </div>
                   <div className="actions-cagnotte">
-                    {this.getActionsCagnotte(cagnotte)}
+                    <div className="actions-return">
+                        {this.getActionsCagnotte(cagnotte)}
+                    </div>
                   </div>
                 </Col>
               </Row> 
@@ -143,7 +140,7 @@ export class DisplayCagnotte extends Component { // eslint-disable-line react/pr
             <div className="title-contributions">
               <h1 className="bp3-heading">Contributions</h1>
             </div>
-            { cagnotte.value.nbreContributions == 0 ? "Aucune contribution à cette cagnotte" : <DisplayContribution drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} id={this.props.id} /> }
+            { cagnotte.value.nbreContributions === 0 ? "Aucune contribution à cette cagnotte" : <DisplayContribution drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} id={this.props.id} /> }
           </div>
         </Container>
       </div>

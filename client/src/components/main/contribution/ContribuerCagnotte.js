@@ -52,7 +52,7 @@ export class ContribuerCagnotte extends Component { // eslint-disable-line react
   render() {
     return (
       <div>
-        <Button id="PopoverCagnotte" large intent={Intent.PRIMARY} icon="dollar" onClick={this.toggle}>
+        <Button id="PopoverCagnotte" large intent={Intent.PRIMARY} icon="dollar" loading={this.props.loading} onClick={this.toggle}>
           Contribuer
         </Button>
         <Popover placement="auto" isOpen={this.state.popoverOpen} target="PopoverCagnotte" toggle={this.toggle}>
@@ -60,7 +60,7 @@ export class ContribuerCagnotte extends Component { // eslint-disable-line react
           <PopoverBody>
             <Row>
               <Col>
-                <Input placeholder="Nom Prénom" onChange={this.handleChangeName} value={this.state.name}  />
+                <Input placeholder="Prénom Nom" onChange={this.handleChangeName} value={this.state.name}  />
               </Col>
             </Row>
             <br />
