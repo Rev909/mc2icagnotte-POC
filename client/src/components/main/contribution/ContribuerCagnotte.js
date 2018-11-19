@@ -46,7 +46,7 @@ export class ContribuerCagnotte extends Component { // eslint-disable-line react
     const { drizzle, drizzleState } = this.props;
     const contract = drizzle.contracts.Mc2iCagnotte;
     const stackId = contract.methods["ContribuerCagnotte"].cacheSend(this.props.id, this.state.name, this.state.message, { value: (drizzle.web3.utils.toWei(this.state.montant,"ether"))});
-    this.setState({stackId: stackId});
+    this.setState({stackId: stackId, popoverOpen: !this.state.popoverOpen, name: '', montant: 0, message: ''});
   }
 
   render() {
