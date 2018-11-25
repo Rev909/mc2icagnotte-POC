@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,9 +28,9 @@ const drizzle = new Drizzle(options, drizzleStore);
 
 ReactDOM.render(
   <DrizzleContext.Provider drizzle={drizzle}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Router>
+      <App /> 
+    </Router>
   </DrizzleContext.Provider>,
   document.getElementById("root")
 );

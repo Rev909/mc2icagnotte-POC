@@ -3,6 +3,7 @@ import { Container, Col, Row } from 'reactstrap'
 
 import { Callout, Icon, Intent } from "@blueprintjs/core";
 import { DrizzleContext } from 'drizzle-react'
+import { withRouter } from 'react-router-dom'
 
 import Loading from '../Loading'
 import ContribuerCagnotte from '../contribution/ContribuerCagnotte'
@@ -13,7 +14,7 @@ import NotFound from '../NotFound'
 /**
 * DisplayCagnotte
 */
-export class DisplayCagnotte extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class DisplayCagnotte extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   state = { dataKey: null };
 
@@ -79,7 +80,7 @@ export class DisplayCagnotte extends React.PureComponent { // eslint-disable-lin
       return  (
             <Row className="justify-content-center">
               <Col sm="12">
-                <h4 class="text-muted">Aucune action disponible</h4>
+                <h4 className="text-muted">Aucune action disponible</h4>
                </Col> 
             </Row>
         )
@@ -117,7 +118,7 @@ export class DisplayCagnotte extends React.PureComponent { // eslint-disable-lin
                     <div className="montant-cagnotte">
                       <h3> {
                         this.props.drizzle.web3.utils.fromWei(cagnotte.value.montant,"ether")
-                      } ETH</h3>
+                      } mc²icoins</h3>
                     </div>
                     <div className="contributions-cagnotte">
                       <h3> {cagnotte.value.nbreContributions}  {cagnotte.value.nbreContributions > 1 ? 'contributions' : 'contribution'}</h3>
@@ -140,7 +141,9 @@ export class DisplayCagnotte extends React.PureComponent { // eslint-disable-lin
             <div className="title-contributions">
               <h1 className="bp3-heading">Contributions</h1>
             </div>
+            <div className="list-contributions">
             { cagnotte.value.nbreContributions === 0 ? "Aucune contribution à cette cagnotte" : <DisplayContribution drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} id={this.props.id} /> }
+            </div>
           </div>
         </Container>
       </div>
@@ -149,4 +152,4 @@ export class DisplayCagnotte extends React.PureComponent { // eslint-disable-lin
 }
 
 
-export default DisplayCagnotte;
+export default withRouter(DisplayCagnotte);

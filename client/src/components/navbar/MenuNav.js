@@ -1,19 +1,21 @@
 import React from 'react';
-import { Navbar, NavbarGroup, NavbarHeading, NavbarDivider, Button, Alignment, InputGroup, Intent } from '@blueprintjs/core'
+import { Navbar, Button, Alignment, InputGroup, Intent } from '@blueprintjs/core'
 import { DrizzleContext } from "drizzle-react";
-import { Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import CreerCagnotte from '../main/cagnotte/CreerCagnotte'
 
 import '../styles/MenuNav.css'
 
-export default class MenuNav extends React.Component {
+export class MenuNav extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      value: ''
+      value: '',
+      validvalue: false,
+      redirect: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,24 +26,34 @@ export default class MenuNav extends React.Component {
 
   handleChange(event) {
     this.setState({value: event.target.value});
+
+    if (isNaN(this.state.value)) {
+      this.setState({validvalue: true});
+    }
+    else {
+      this.setState({validvalue: false});
+    }
   }
 
   handleKeyPress(event) {
     if (event.key === 'Enter') {
-      if (this.state.value != '') {this.handleSubmit()}      
+      if (!isNaN(this.state.value)) {
+        this.props.history.push('/cagnotte/' + this.state.value);
+      }
     }
   }
 
   handleSubmit(event) {
-    <Redirect push to={'/cagnotte/' + this.state.value} />
-    console.log("Debug");
+    if (this.state.value === '') {
+      this.setState({validvalue: true});
+    }
+    else { this.props.history.push('/cagnotte/' + this.state.value); }
   }
 
   render() {
-
     const searchButton = (
        <Button
-          disabled={false}
+          disabled={this.state.validvalue}
           icon="search"
           intent={Intent.PRIMARY}
           minimal={true}
@@ -60,8 +72,10 @@ export default class MenuNav extends React.Component {
                 <DrizzleContext.Consumer>
                     {drizzleContext => {
                       const { drizzle, drizzleState, initialized } = drizzleContext;
+                      let loading = false
+                      if (!initialized) { loading = true }
                       return (
-                        <CreerCagnotte drizzle={drizzle} drizzleState={drizzleState} />
+                        <CreerCagnotte drizzle={drizzle} drizzleState={drizzleState} loading={loading} history={this.props.history}/>
                       );
                     }}
                 </DrizzleContext.Consumer>
@@ -71,6 +85,7 @@ export default class MenuNav extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.value}
                   placeholder="Numéro de cagnotte..."
+                  intent={this.state.validvalue ? Intent.DANGER : Intent.NONE}
                   onKeyPress={this.handleKeyPress}
                   rightElement={searchButton}
                   type="search"
@@ -82,3 +97,5 @@ export default class MenuNav extends React.Component {
     );
   }
 }
+
+export default withRouter(MenuNav)

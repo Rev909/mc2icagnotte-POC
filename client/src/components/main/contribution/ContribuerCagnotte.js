@@ -80,7 +80,7 @@ export class ContribuerCagnotte extends Component { // eslint-disable-line react
                   <Input type="textarea" name="text" placeholder="Votre message" onChange={this.handleChangeMessage} value={this.state.message}/>
                 </FormGroup>
               </Form>
-              <Button color="primary" onClick={this.handleSubmit}>Valider</Button>
+              <Button intent={Intent.PRIMARY} onClick={this.handleSubmit}>Valider</Button>
             </Col>
           </Row>
           </PopoverBody>

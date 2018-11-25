@@ -6,7 +6,7 @@ import Accueil from './components/main/Accueil'
 import NotFound from './components/main/NotFound'
 import Footer from './components/navbar/Footer'
 
-import {Route, Switch} from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 class App extends Component {
 

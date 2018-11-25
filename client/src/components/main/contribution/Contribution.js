@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Card, CardHeader, CardFooter, CardBody,
-  CardTitle, CardSubtitle, CardText} from 'reactstrap'
+import { Row, Col } from 'reactstrap'
+
+import { Button, Card, Elevation, Icon, Intent } from "@blueprintjs/core";
 
 
-  import Loading from '../Loading'
+import Loading from '../Loading'
 
 export class Contribution extends Component {
 	
@@ -24,13 +25,18 @@ export class Contribution extends Component {
 	      return <Loading />
 	    }
 		return (
-		<Card>
-			<CardHeader tag="h4">{contribution.value.nom}</CardHeader>
-	        <CardBody>
-	          <CardSubtitle>{contribution.value.montant}</CardSubtitle>
-	          <CardText>{contribution.value.mot}</CardText>
-	        </CardBody>
-	      </Card>
+			<Card elevation={Elevation.TWO}>
+				<Row className="contribution">
+					<Col className="align-self-center" xs="4">
+						<Icon icon="user" intent={Intent.PRIMARY} iconSize={70} />
+					</Col>
+					<Col xs="8">
+						<h5>{contribution.value.nom}</h5>
+			    		<p className="text-muted">{contribution.value.mot}</p>
+			    		<p><strong>{this.props.drizzle.web3.utils.fromWei(contribution.value.montant,"ether")} mc²icoins</strong></p>
+					</Col>
+				</Row>
+			</Card>
 		);
 	}
 }
