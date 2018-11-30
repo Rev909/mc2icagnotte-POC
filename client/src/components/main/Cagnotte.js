@@ -18,15 +18,15 @@ export class Cagnotte extends Component { // eslint-disable-line react/prefer-st
             return <Loading/>
           }
 
-        return (
-          <div className="cagnotte">
-            <DisplayCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.match.params.number} /> 
-        </div>
-    );
-  }}
+          return (
+            <div className="cagnotte">
+              <DisplayCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.match.params.number} /> 
+            </div>
+          );
+        }}
       </DrizzleContext.Consumer>
-);
-}
+    );
+  }
 }
 
 export default Cagnotte;

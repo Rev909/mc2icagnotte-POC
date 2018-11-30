@@ -15,6 +15,7 @@ export class MenuNav extends React.Component {
     this.state = {
       value: '',
       validvalue: false,
+      disabledInput: true,
       redirect: false
     };
 
@@ -73,7 +74,11 @@ export class MenuNav extends React.Component {
                     {drizzleContext => {
                       const { drizzle, drizzleState, initialized } = drizzleContext;
                       let loading = false
-                      if (!initialized) { loading = true }
+                
+                      if (!initialized) { 
+                        loading = true 
+                      }
+
                       return (
                         <CreerCagnotte drizzle={drizzle} drizzleState={drizzleState} loading={loading} history={this.props.history}/>
                       );
@@ -87,6 +92,7 @@ export class MenuNav extends React.Component {
                   placeholder="Numéro de cagnotte..."
                   intent={this.state.validvalue ? Intent.DANGER : Intent.NONE}
                   onKeyPress={this.handleKeyPress}
+                  disabled={this.state.disabledInput}
                   rightElement={searchButton}
                   type="search"
                 />
