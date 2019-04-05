@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, Classes, Dialog, Intent, Text, InputGroup, Position, Toast, Toaster } from '@blueprintjs/core';
-import { Redirect, withRouter } from 'react-router-dom'
+import { Button, Classes, Dialog, Intent, Text, InputGroup, Position, Toaster } from '@blueprintjs/core';
 
 
 class CreerCagnotte extends PureComponent  {

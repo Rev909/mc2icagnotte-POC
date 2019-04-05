@@ -15,7 +15,7 @@ export class MenuNav extends React.Component {
     this.state = {
       value: '',
       validvalue: false,
-      disabledInput: true,
+      disabledInput: false,
       redirect: false
     };
 
@@ -26,7 +26,7 @@ export class MenuNav extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({val1ue: event.target.value});
 
     if (isNaN(this.state.value)) {
       this.setState({validvalue: true});

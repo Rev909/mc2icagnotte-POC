@@ -16,7 +16,10 @@ import NotFound from '../NotFound'
 */
 export class DisplayCagnotte extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  state = { dataKey: null };
+  state = { 
+    dataKey: null ,
+    id: this.props.id
+  };
 
   componentDidMount() {
     const { drizzle, drizzleState } = this.props;
@@ -45,7 +48,7 @@ export class DisplayCagnotte extends React.Component { // eslint-disable-line re
                   let loading = false
                   if (!initialized) { loading = true }
                   return (
-                    <Row className="justify-content-center">
+                    <Row className="actions-cagnotte justify-content-end">
                       <Col sm="6">
                         <ContribuerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id} loading={loading}/>
                       </Col>
@@ -65,7 +68,7 @@ export class DisplayCagnotte extends React.Component { // eslint-disable-line re
                   const { drizzle, drizzleState, initialized } = drizzleContext;
                   if (!initialized) { return <Loading />} ;
                   return (
-                      <Row className="justify-content-center">
+                      <Row className="actions-cagnotte">
                         <Col sm="12">
                           <ContribuerCagnotte drizzle={drizzle} drizzleState={drizzleState} id={this.props.id}/>
                         </Col> 
@@ -78,9 +81,9 @@ export class DisplayCagnotte extends React.Component { // eslint-disable-line re
     }
     else {
       return  (
-            <Row className="justify-content-center">
-              <Col sm="12">
-                <h4 className="text-muted">Aucune action disponible</h4>
+            <Row className="actions-cagnotte">
+              <Col>
+                <h4 className="text-muted text-center">Aucune action disponible</h4>
                </Col> 
             </Row>
         )
@@ -129,20 +132,16 @@ export class DisplayCagnotte extends React.Component { // eslint-disable-line re
                       </div>
                     </div>
                   </div>
-                  <div className="actions-cagnotte">
-                    <div className="actions-return">
-                        {this.getActionsCagnotte(cagnotte)}
-                    </div>
-                  </div>
-                </Col>
-              </Row> 
+              </Col>
+              </Row>
+              {this.getActionsCagnotte(cagnotte)}
           </div>
           <div className="display-contributions">
             <div className="title-contributions">
               <h1 className="bp3-heading">Contributions</h1>
             </div>
             <div className="list-contributions">
-            { cagnotte.value.nbreContributions === 0 ? "Aucune contribution à cette cagnotte" : <DisplayContribution drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} id={this.props.id} /> }
+              {cagnotte.value.nbreContributions == 0 ? <h4>Aucune contribution à cette cagnotte</h4> : <DisplayContribution drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} id={this.props.id} /> }
             </div>
           </div>
         </Container>

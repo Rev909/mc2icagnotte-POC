@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 
 /// @title Smart-Contract de gestion des cagnottes des consultants mc²i
@@ -16,7 +16,7 @@ contract Mc2iCagnotte {
     }
     
     struct Contribution {
-        uint128 id;
+        bytes32 id;
         uint CagnotteID;
         address sender;
         uint montant;
@@ -25,16 +25,16 @@ contract Mc2iCagnotte {
     }
     
     event CreationCagnotte(uint ID, string nom, uint montant, uint nbreContrib, bool statut);
-    event ContributionCagnotte (uint128 ContribId, uint IDCagnotte, uint montant, string nom, string mot);
+    event ContributionCagnotte (bytes32 ContribId, uint IDCagnotte, uint montant, string nom, string mot);
     
     //Get des cagnottes par leur ID
     mapping(uint => Cagnotte) public getCagnotteByID;
     //Get des contributions par leur ID
-	mapping(uint => Contribution) public getContributionByID;
+	mapping(bytes32 => Contribution) public getContributionByID;
     //Get des ID cagnottes par utilisateur
     mapping(address => uint[]) public getIDCagnotteByOwner;
 	//Get des ID contributions par utilisateur
-    mapping(address => uint[]) public getIDContribByOwner;
+    mapping(address => bytes32[]) public getIDContribByOwner;
     
     Cagnotte[] cagnottes;
     Contribution[] contributions;
@@ -44,7 +44,7 @@ contract Mc2iCagnotte {
 
     /// @notice Crée la cagnotte avec seulement un nom
     /// @param _nom Le nom de la cagnotte
-    function CreerCagnotte(string _nom) public {
+    function CreerCagnotte(string memory _nom) public {
         Cagnotte memory _cagnotte = Cagnotte(idCagnotte, msg.sender, _nom, 0, 0, now, true);
         //On met la cagnotte dans le tableau global
         cagnottes.push(_cagnotte);
@@ -76,13 +76,13 @@ contract Mc2iCagnotte {
     /// @param _nom Le nom du contributeur
     /// @param _mot Le mot laissé par le contributeur
     /// @return bool Succès de la contribution
-    function ContribuerCagnotte(uint _id, string _nom, string _mot) payable public returns (bool success) {
+    function ContribuerCagnotte(uint _id, string memory _nom, string memory _mot) payable public returns (bool success) {
         Cagnotte storage c = getCagnotteByID[_id];
         require (c.statut == true, "La cagnotte est fermée, vous ne pouvez plus y contribuer");
         require (msg.value > 0, "Vous ne pouvez pas contribuer à hauteur de 0 mc2icoins");
         
         //ID de la contrib = Hachage de l'adresse de l'expéditeur, du numéro de la cagnotte, du nom et mot laissé
-        uint128 ContribId = uint128(keccak256(msg.sender, idCagnotte, _nom, _mot));
+        bytes32 ContribId = keccak256(abi.encodePacked(msg.sender, idCagnotte, _nom, _mot));
         
         //On l'insère dans le tableau des contributions
         Contribution memory _contribution = Contribution(ContribId, _id, msg.sender, msg.value, _nom, _mot);
@@ -106,10 +106,10 @@ contract Mc2iCagnotte {
     /// @notice Permet d'obtenir chaque contribution relatives à une cagnotte
     /// @dev Ne retourne pour l'instant que des tableaux d'adresses et d'int, une solution pour les noms et mots est en cours d'investigation
     /// @param _id L'ID de la cagnotte
-    /// @return uint128[] Tableau des ID des contributions
-    function getContributionsByCagnotte(uint _id) public view returns (uint128[]) {
+    /// @return bytes32[] Tableau des ID des contributions
+    function getContributionsByCagnotte(uint _id) public view returns (bytes32[] memory) {
         //On réserve trois tableaux et on fixe leur taille avec le nombre de contributions de la cagnotte
-		uint128[] memory _idContribs = new uint128[](getCagnotteByID[_id].nbreContributions);
+		bytes32[] memory _idContribs = new bytes32[](getCagnotteByID[_id].nbreContributions);
         uint counter = 0;
 		//On itère dans le tableau des contributions, à la recherhe des contributions liées à la cagnotte
         for (uint i = 0 ; i < contributions.length ; i++) {
